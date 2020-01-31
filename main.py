@@ -7,7 +7,7 @@ import argparse
 from datetime import datetime
 from decimal import Decimal
 
-from phonemast import PhoneMast
+from phonemast import PhoneMast, PhoneMasts
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -15,6 +15,10 @@ if __name__ == '__main__':
     parser.add_argument('--csv-fpath',
             help='The path of the data file to load',
             default='./phone_masts.csv')
+    parser.add_argument('--five-by-rent-asc', dest='show_by_rent',
+            default=False, action='store_true',
+            help='Show first 5 masts sorted by "Current Rent"')
+
     args = parser.parse_args()
     fpath = os.path.abspath(args.csv_fpath)
     if not os.path.exists(fpath):
@@ -33,3 +37,7 @@ if __name__ == '__main__':
                     lease_end_date=datetime.strptime(row[8], '%d %b %Y'),
                     lease_years=int(row[9]), current_rent=Decimal(row[10]))
                 )
+    phone_masts = PhoneMasts(masts)
+    if args.show_by_rent:
+        print('1a) Obtain the first 5 items from the resultant list and output to the console\n')
+        print(phone_masts.ordered_by_current_rent())
