@@ -1,3 +1,4 @@
+from collections import defaultdict
 from dataclasses import dataclass
 from datetime import date, datetime
 from decimal import Decimal
@@ -18,6 +19,10 @@ class PhoneMast:
     lease_end_date: date
     lease_years: int
     current_rent: Decimal
+    lease_start_date_str: str = ''
+
+    def __post_init__(self):
+        self.lease_start_date_str = self.lease_start_date.strftime('%d/%m/%Y')
 
 class PhoneMasts:
     """
@@ -47,3 +52,34 @@ class PhoneMasts:
         if limit:
             by_rent = by_rent[:limit]
         return by_rent
+
+    def with_lease_years(self, years):
+        """
+        Return a list of phone masts which have <years> lease_years
+
+        years (int): the number of lease_years
+        """
+        # Demonstrate usage of a list comprehension for at least one of the
+        # tasks
+        return [mast for mast in self.masts if mast.lease_years == years]
+
+    def count_by_tenant(self):
+        """
+        Return a dictionary with the tenant name as keys and the count of masts
+        or that tenant.
+        """
+        # 3. Create a dictionary containing tenant name and a count of masts
+        # for each tenant
+        by_tenant = defaultdict(int)
+        for mast in self.masts:
+            by_tenant[mast.tenant] += 1
+        return by_tenant
+
+    def lease_start_between(self, start_date, end_date):
+        """
+        Return a list of PhoneMast objects which have lease start dates between
+        start_date and end_date (inclusive).
+        """
+        return list(filter(
+                lambda mast: start_date <= mast.lease_start_date <= end_date,
+                self.masts))
