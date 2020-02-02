@@ -5,6 +5,7 @@ from decimal import Decimal
 
 from phonemast import PhoneMasts, PhoneMast
 
+
 class TestPhoneMasts(unittest.TestCase):
     """
     Test case for the PhoneMasts class
@@ -12,9 +13,9 @@ class TestPhoneMasts(unittest.TestCase):
 
     def test_ordered_by_current_rent(self):
         test_rents = list(map(Decimal,
-                             ('79342.50', '7273.25', '72609', '41587',
-                              '38815', '67601', '20142', '78165', '41468',
-                              '87907'))
+                              ('79342.50', '7273.25', '72609', '41587',
+                               '38815', '67601', '20142', '78165', '41468',
+                               '87907'))
                           )
         phone_masts = PhoneMasts([PhoneMast(
                                    prop_name=f'name {i}',
@@ -38,8 +39,8 @@ class TestPhoneMasts(unittest.TestCase):
                 sorted_test_rents = list(reversed(sorted_test_rents))
 
             self.assertEqual(sorted_test_rents[:limit],
-                            [mast.current_rent for mast in
-                                phone_masts.ordered_by_current_rent(
+                             [mast.current_rent for mast in
+                                 phone_masts.ordered_by_current_rent(
                                     asc=ascending, limit=limit)])
 
     def test_with_lease_years(self):
@@ -62,8 +63,9 @@ class TestPhoneMasts(unittest.TestCase):
                         40: ['name 6', 'name 7']}
         for lease_years, expected_mast_names in expectations.items():
             self.assertListEqual(expected_mast_names,
-                                [mast.prop_name for mast in
-                                    phone_masts.with_lease_years(lease_years)])
+                                 [mast.prop_name for mast in
+                                     phone_masts.with_lease_years(
+                                         lease_years)])
 
     def test_count_by_tenant(self):
         test_data = {'Tenant A': 22, 'Tenant B': 55, 'Tenant C': 101}
@@ -81,8 +83,8 @@ class TestPhoneMasts(unittest.TestCase):
                                        lease_end_date=date.today(),
                                        lease_years=20,
                                        current_rent=Decimal('10')
-                                      )
-                            )
+                                       )
+                             )
 
         phone_masts = PhoneMasts(masts)
         for name, num_masts in test_data.items():
@@ -109,17 +111,18 @@ class TestPhoneMasts(unittest.TestCase):
                                    lease_end_date=date.today(),
                                    lease_years=20,
                                    current_rent=Decimal('10')
-                                  )
-                        )
+                                   )
+                         )
         phone_masts = PhoneMasts(masts)
         expected_names = ['Tenant B', 'Tenant C', 'Tenant D']
         self.assertListEqual(expected_names,
-                [mast.tenant for mast in
-                    phone_masts.lease_start_between(
-                        date(1999, 1, 1),
-                        date(2005, 2, 1)
-                        )],
-            )
+                             [mast.tenant for mast in
+                              phone_masts.lease_start_between(
+                                date(1999, 1, 1),
+                                date(2005, 2, 1)
+                                )],
+                             )
+
 
 if __name__ == '__main__':
     unittest.main()

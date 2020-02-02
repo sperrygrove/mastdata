@@ -22,14 +22,17 @@
 
 ## To run
 
+The code requires Python 3.7.
+
 ```
 $ git clone https://github.com/sperrygrove/mastdata
-$ python3 main.py -h
-$ python3 main.py <args>
+$ cd mastdata
+$ python main.py -h
+$ python main.py <args>
 ```
 
 ## Running the tests
 
 ```
-$ python3 test_phonemasts.py
+$ python test_phonemasts.py
 ```

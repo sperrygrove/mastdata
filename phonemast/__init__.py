@@ -1,7 +1,8 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date
 from decimal import Decimal
+
 
 @dataclass
 class PhoneMast:
@@ -24,6 +25,7 @@ class PhoneMast:
     def __post_init__(self):
         self.lease_start_date_str = self.lease_start_date.strftime('%d/%m/%Y')
 
+
 class PhoneMasts:
     """
     Class to implement data view methods
@@ -45,8 +47,10 @@ class PhoneMasts:
         by_rent = sorted(self.masts, key=lambda m: m.current_rent)
         # If we have multiple rows with the same value to be sorted, we may
         # wish to add another meaningful key to sort on e.g. lease_years e.g.:
-        #by_rent = sorted(self.masts,
-                #key=lambda m: (m.current_rent, m.lease_years))
+
+        # by_rent = sorted(self.masts,
+        #                  key=lambda m: (m.current_rent, m.lease_years))
+
         if not asc:
             by_rent = list(reversed(by_rent))
         if limit:
